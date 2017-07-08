@@ -1,0 +1,29 @@
+.PlaceInfo {
+  margin-top: 0;
+  padding-top: 0;
+  z-index: 1;
+  transition: padding-top .25s ease-out, 
+              margin-top .25s ease-out;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  pointer-events: none;
+}
+.App-PlaceInfo.open .PlaceInfo {
+  margin-top: -100px;
+  padding-top: 70px;
+  transition: padding-top .25s ease-in, 
+              margin-top .25s ease-in;
+}
+.PlaceInfo-Content {
+  background: #fff;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
+  flex-grow: 1;
+  padding: 20px;
+  margin: 0 10px;
+}
+
+.PlaceInfo-Close {
+
+
+}
