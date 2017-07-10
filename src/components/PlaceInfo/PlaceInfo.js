@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 import './PlaceInfo.css';
 
-const PlaceInfo = props => (
-  <div className="PlaceInfo">
-    <div className="PlaceInfo-Content">
-      <h1>Otsikko</h1>
+export const PlaceInfo = ({ place }) => {
+  if (!place) return null;
+  return (
+    <div className="PlaceInfo">
+      <div className="PlaceInfo-Content">
+        <h1>{place.name}</h1>
+        <div className="PlaceInfo--Description">
+          {place.description}
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+}
 
-export default PlaceInfo;
+const mapStateToProps = state => ({
+  place: state.places.places.find(place => place._id === state.places.activePlace)
+});
+
+export default connect(
+  mapStateToProps
+)(PlaceInfo);
