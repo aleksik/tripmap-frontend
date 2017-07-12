@@ -1,0 +1,42 @@
+/*
+.Button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 0;
+  color: rgb(68, 68, 68);
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  text-decoration: none;
+  padding: 0 7px;
+  pointer-events: auto;
+  height: 30px;
+  font-size: inherit;
+  cursor: pointer;
+}
+*/
+
+@import '_config.scss';
+
+.Button {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 0;
+  background: #fff;
+  text-transform: uppercase;
+  font: $font-small;
+  padding: .5em 1em;
+  height: auto;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  border-radius: 2px;
+  pointer-events: auto;
+  cursor: pointer;
+
+  &--primary {
+    background: $accent-color;
+    color: $accent-color-text;
+  }
+}

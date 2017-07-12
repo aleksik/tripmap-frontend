@@ -5,6 +5,15 @@
   position: relative;
 }
 
+.App-Navbar {
+  height: 40px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .App-Map {
   flex: 1;
   position: relative;

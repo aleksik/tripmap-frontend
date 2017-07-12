@@ -1,0 +1,25 @@
+.Marker {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  left: -12px;
+  top: -24px;
+  transition: transform .1s;
+  transform-origin: 50% 100%;
+}
+.Marker.hotel path {
+  fill: red;
+}
+.Marker.restaurant {
+  fill: green;
+}
+.Marker.beach {
+  fill: blue;
+}
+.Marker.hover:not(.editModeMarker) {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+.Marker.movable {
+  fill: #000;
+}

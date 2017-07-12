@@ -1,0 +1,42 @@
+.Navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px;
+  font-size: 14px;
+  color: rgb(68, 68, 68);
+}
+
+.Navbar > .Button {
+  margin-left: 10px;
+}
+
+.Navbar-LoginForm {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background: #fff;
+  padding: 20px;
+  top: 50px;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .1s;
+}
+
+.Navbar-LoginForm.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.Navbar-LoginForm input {
+  margin-bottom: 10px;
+  font-size: 14px;
+  padding: 5px;
+  border: 1px solid rgb(185, 185, 185);
+  border-radius: 2px;
+}
+.Navbar-LoginForm input:last-child {
+  margin-bottom: 0;
+}

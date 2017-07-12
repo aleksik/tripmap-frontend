@@ -1,13 +1,15 @@
 export const REQUEST_PLACES = 'places/REQUEST_PLACES';
 export const SET_PLACES = 'places/SET_PLACES';
 
+const API = process.env.REACT_APP_API_URL;
+
 export const getPlaces = ()  => {
   return dispatch => {
     dispatch({
       type: REQUEST_PLACES
     });
 
-    return fetch('http://localhost:9000/places')
+    return fetch(API + '/places')
       .then(response => response.json())
       .then(places => {
         dispatch({

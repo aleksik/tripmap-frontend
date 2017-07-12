@@ -1,0 +1,66 @@
+@import '_config.scss';
+
+.ContentPanel {
+  position: absolute;
+  top: 0; right: 0;
+  bottom: 0; left: 0;
+  display: flex;
+  pointer-events: none;
+
+  &-Container {
+    width: 100%;
+    max-width: 600px;
+    pointer-events: auto;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  &-Header {
+    background-color: $primary-color;
+    color: $primary-color-text; 
+    display: flex;
+    padding: 20px 30px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+
+    h1 {
+      font-weight: 300;
+      font-size: 36px;
+      margin: 0;
+    }
+  }
+
+  &-Main {
+    padding: 30px;
+    flex-grow: 1;
+
+    h2 {
+      color: $primary-color-dark;
+      font: $font-medium;
+      margin-bottom: 1em;
+      margin-top: 2.5em;
+  
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    p {
+      font: $font-medium;
+      margin-bottom: 1.5em;
+    }
+  } 
+
+  &-Footer {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 20px 30px;
+    border-top: 1px solid #BDBDBD;
+  }
+}

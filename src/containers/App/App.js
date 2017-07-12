@@ -6,6 +6,8 @@ import { Route, withRouter } from 'react-router-dom'
 import { getPlaces } from '../../actions/places';
 import PlaceInfo from '../../components/PlaceInfo';
 import MapView from '../../components/MapView';
+import Navbar from '../../components/Navbar';
+import PlaceEdit from '../../components/PlaceEdit';
 
 import './App.css';
 
@@ -20,10 +22,14 @@ export class App extends Component {
 
     return (
       <div className="App">
+        <div className="App-Navbar">
+          <Navbar />
+        </div>
         <div className="App-Map">
           <Route path="/" component={MapView} />
         </div>
-        <Route path="/place/:id" component={PlaceInfo} />
+        <Route exact path="/place/:id" component={PlaceInfo} />
+        <Route exact path="/add" component={PlaceEdit} />
       </div>
 
     );
