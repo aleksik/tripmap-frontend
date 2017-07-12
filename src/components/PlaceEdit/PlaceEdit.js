@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import Autogrow from 'textarea-autogrow';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import { ContentPanel, ContentPanelHeader, ContentPanelMain, ContentPanelFooter } from '../../components/ContentPanel';
+import Icon, { ICONS } from '../../components/Icon';
+import { setEditModeMarker } from '../../actions/map';
 
 import './PlaceEdit.css';
 
@@ -26,7 +30,15 @@ export class PlaceEdit extends Component {
     return (
       <ContentPanel>
         <ContentPanelHeader>
-          <h1>New place</h1>
+          <h1>
+            New place
+            <Icon 
+              icon={ICONS.CROSS}
+              color="#FFFFFF"
+              size="24"
+              onClick={this.props.close}
+            />
+          </h1>
         </ContentPanelHeader>
         <ContentPanelMain>
         
@@ -75,7 +87,7 @@ export class PlaceEdit extends Component {
         <ContentPanelFooter>
           <div className="Form-Row -alignRight">
             <button className="Button Button--primary">Save</button>
-            <button className="Button">Cancel</button>
+            <button className="Button" onClick={this.props.close}>Cancel</button>
           </div>
         </ContentPanelFooter>
       </ContentPanel>
@@ -89,6 +101,15 @@ const mapStateToProps = state => ({
   editModeMarker: state.map.editModeMarker
 });
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  close: () => {
+    dispatch(push(`/`));
+    dispatch(setEditModeMarker(null));
+  },
+}, dispatch);
+
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PlaceEdit);
