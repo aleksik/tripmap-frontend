@@ -1,15 +1,20 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import {
-  REQUEST_PLACES,
-  SET_PLACES
+  PLACES_REQUEST,
+  PLACES_SUCCESS,
+  CREATE_REQUEST,
+  CREATE_SUCCESS,
+  CREATE_FAILURE
 } from '../actions/places';
 
 
 const initialState = {
   places: [],
   activePlace: null,
-  isRequesting: false
+  isFetching: false,
+  isCreating: false,
+  createErrorMessage: null
 };
 
 export default (state = initialState, action) => {
@@ -22,17 +27,36 @@ export default (state = initialState, action) => {
         activePlace: idMatch && idMatch.length >= 2 ? idMatch[1] : null
       };
 
-    case REQUEST_PLACES:
+    case PLACES_REQUEST:
       return {
         ...state,
-        isRequesting: true
+        isFetching: true
       };
 
-    case SET_PLACES:
+    case PLACES_SUCCESS:
       return {
         ...state,
-        places: action.places
+        places: action.places,
+        isFetching: false
       };
+    
+    case CREATE_REQUEST:
+      return {
+        ...state,
+        isCreating: true
+      };
+    
+    case CREATE_SUCCESS:
+      const newState = { ...state, isCreating: false };
+      newState.places.push(action.place);
+      return newState;
+    
+    case CREATE_FAILURE:
+      return {
+        ...state,
+        createErrorMessage: action.createErrorMessage
+      }
+
     
     default:
       return state;
