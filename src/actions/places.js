@@ -1,3 +1,5 @@
+import { handleResponseErrors } from '../utils';
+
 export const PLACES_REQUEST = 'places/PLACES_REQUEST';
 export const PLACES_SUCCESS = 'places/PLACES_SUCCESS';
 
@@ -35,10 +37,10 @@ function receiveCreate(place) {
   }
 }
 
-function createError(createErrorMessage) {
+function createError(createErrors) {
   return {
     type: CREATE_FAILURE,
-    createErrorMessage
+    createErrors
   }
 }
 
@@ -47,6 +49,7 @@ export const getPlaces = ()  => {
     dispatch(requestPlaces());
 
     return fetch(API + '/places')
+      .then(response => handleResponseErrors(response))
       .then(response => response.json())
       .then(places => dispatch(receivePlaces(places)))
       .catch(error => console.error(error));
@@ -65,18 +68,26 @@ export const createPlace = place => {
   };
 
   return dispatch => {
+
     dispatch(requestCreate());
+
     return fetch(API + '/places', config)
-      .then(response => response.json())
-      .then(({ success, place }) => {
-        console.log(place);
-        if (success === true) {
-          return dispatch(receiveCreate(place))
-        } else {
-          dispatch(createError())
-          return Promise.reject()
+
+      // Handle errors
+      .then(response => {
+        if (!response.ok) {
+          return response.json()
+            .then(({ errors }) => {
+              dispatch(createError(errors));
+              throw Error(response.statusText);
+            });
         }
+        return response.json();
       })
-      .catch(err => console.log(err));
+
+      // Success
+      .then(({ place }) => dispatch(receiveCreate(place)))
+
+      .catch(e => Promise.reject(e.message));
   }
 }

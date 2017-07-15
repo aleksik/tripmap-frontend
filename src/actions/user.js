@@ -51,15 +51,11 @@ export function login(credentials) {
     return fetch(API + '/users/auth', config)
       .then(response => response.json())
       .then(({ token, user, success }) => {
-        if (success === true) {
-          localStorage.setItem('token', token);
-          return dispatch(receiveLogin(user));
-        } else {
-          dispatch(loginError('Login failed'))
-          return Promise.reject();
-        }
+        if (!success) throw Error('Login failed');
+        localStorage.setItem('token', token);
+        return dispatch(receiveLogin(user));
       })
-      .catch(err => console.log(err));
+      .catch(e => dispatch(loginError(e.message)));
   }
 }
 
@@ -67,6 +63,7 @@ export function logout() {
   return dispatch => {
     dispatch(requestLogout());
     localStorage.removeItem('token');
-    return dispatch(receiveLogout());
+    dispatch(receiveLogout());
+    return Promise.resolve();
   }
 }

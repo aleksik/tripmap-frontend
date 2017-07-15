@@ -2,6 +2,10 @@
 
 .Form {
 
+  &-ErrorMessage {
+    color: #d32f2f;
+  }
+
   &-Row {
     display: flex;
     flex-direction: row;
@@ -77,6 +81,15 @@
       font: $font-small;
       font-weight: $font-weight-light;
       margin: .5em 0;
+    }
+
+    &.has-errors {
+      label {
+        color: #d32f2f;
+      }
+      input, textarea, select {
+        border-color: #d32f2f;
+      }
     }
   }
 

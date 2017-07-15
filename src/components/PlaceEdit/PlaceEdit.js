@@ -8,6 +8,7 @@ import { ContentPanel, ContentPanelHeader, ContentPanelMain, ContentPanelFooter 
 import Icon, { ICONS } from '../../components/Icon';
 import { setEditModeMarker } from '../../actions/map';
 
+import classNames from 'classnames';
 import './PlaceEdit.css';
 
 export class PlaceEdit extends Component {
@@ -57,15 +58,18 @@ export class PlaceEdit extends Component {
 
   submit(e) {
     const { place } = this.state;
-    if (place.position.lat && place.position.lng) {
-      this.props.createPlace(place).then(_ => this.props.close());
-    }
+    this.props.createPlace(place)
+      .then(_ => this.props.close())
+      .catch(_ => {});
   }
 
   render() {
 
     if (!this.props.isAuthenticated) return null;
 
+    const { errors } = this.props;
+    const { place } = this.state;
+    
     return (
       <ContentPanel>
         <ContentPanelHeader>
@@ -80,39 +84,45 @@ export class PlaceEdit extends Component {
           </h1>
         </ContentPanelHeader>
         <ContentPanelMain>
+
+          {this.props.errors && (
+            <div className="Form-ErrorMessage">
+              Could not create the place. Please check your input.
+            </div>
+          )}
         
           <h2>Place details</h2>
 
-          <div className="Form-Input">
+          <div className={classNames('Form-Input', { 'has-errors': errors && errors.name })}>
             <label htmlFor="place-name">Name</label>
             <input
               type="text"
               name="name"
               id="place-name"
-              value={this.state.place.name}
+              value={place.name}
               onChange={this.onInputChange.bind(this)}
             />
           </div>
 
-          <div className="Form-Input">
+          <div className={classNames('Form-Input', { 'has-errors': errors && errors.description })}>
             <label htmlFor="place-description">Description</label>
             <textarea 
               name="description"
               id="place-description"
               rows="3"
-              value={this.state.place.description}
+              value={place.description}
               ref={ ref => { this.descriptionInput = ref; } }
               onChange={this.onInputChange.bind(this)}
             />
           </div>
 
-          <div className="Form-Input">
+          <div className={classNames('Form-Input', { 'has-errors': errors && errors.category })}>
             <label htmlFor="place-category">Category</label>
             <select
               required
               name="category" 
               id="place-category"
-              value={this.state.category}
+              value={place.category}
               onChange={this.onInputChange.bind(this)}
             >
               <option value="" disabled>Choose</option>
@@ -126,14 +136,14 @@ export class PlaceEdit extends Component {
 
           <div className="Form-Row -stretch">
 
-            <div className="Form-Input">
+            <div className={classNames('Form-Input', { 'has-errors': errors && errors['position.lat'] })}>
               <label htmlFor="place-lat">Latitude</label>
               <input 
                 readOnly
                 type="number"
                 name="lat" 
                 id="place-lat" 
-                value={this.state.place.position.lat}
+                value={place.position.lat}
                 onChange={this.onPosInputChange.bind(this)}
               />
               <div className="Form-Input-Helper">
@@ -141,14 +151,14 @@ export class PlaceEdit extends Component {
               </div>
             </div>
 
-            <div className="Form-Input">
+            <div className={classNames('Form-Input', { 'has-errors': errors && errors['position.lng'] })}>
               <label htmlFor="place-lng">Longitude</label>
               <input 
                 readOnly
                 type="number" 
                 name="lng" 
                 id="place-lng"
-                value={this.state.place.position.lng}
+                value={place.position.lng}
                 onChange={this.onPosInputChange.bind(this)}
               />
             </div>
@@ -170,7 +180,8 @@ export class PlaceEdit extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.user.isAuthenticated,
   place: state.places.places.find(place => place._id === state.places.activePlace) || {},
-  editModeMarker: state.map.editModeMarker
+  editModeMarker: state.map.editModeMarker,
+  errors: state.places.createErrors
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

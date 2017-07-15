@@ -14,7 +14,7 @@ const initialState = {
   activePlace: null,
   isFetching: false,
   isCreating: false,
-  createErrorMessage: null
+  createErrors: null
 };
 
 export default (state = initialState, action) => {
@@ -43,21 +43,25 @@ export default (state = initialState, action) => {
     case CREATE_REQUEST:
       return {
         ...state,
-        isCreating: true
+        isCreating: true,
+        createErrors: null
       };
     
     case CREATE_SUCCESS:
-      const newState = { ...state, isCreating: false };
+      const newState = { 
+        ...state,
+        isCreating: false,
+        createErrors: null
+      };
       newState.places.push(action.place);
       return newState;
     
     case CREATE_FAILURE:
       return {
         ...state,
-        createErrorMessage: action.createErrorMessage
+        createErrors: action.createErrors
       }
 
-    
     default:
       return state;
   }
